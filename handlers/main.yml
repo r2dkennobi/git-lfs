@@ -1,0 +1,4 @@
+---
+# handlers file for git-lfs
+- name: Invoke Git LFS install
+  command: git lfs install
