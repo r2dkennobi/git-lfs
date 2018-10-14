@@ -1,18 +1,22 @@
 ---
 - name: Import packagecloud gpg key
+  become: yes
   apt_key:
     url: https://packagecloud.io/github/git-lfs/gpgkey
     state: present
 
 - name: Ensure depdendencies are installed
+  become: yes
   apt:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: present
-  with_items:
-    - debian-archive-keyring
-    - apt-transport-https
+  vars:
+    packages:
+      - debian-archive-keyring
+      - apt-transport-https
 
 - name: Setup apt repo configuration
+  become: yes
   apt_repository:
     repo: "deb https://packagecloud.io/github/git-lfs/{{ansible_distribution|lower}}/ {{ansible_distribution_release}} main"
     state: present
@@ -21,6 +25,7 @@
     mode: 0644
 
 - name: Install Git LFS
+  become: yes
   apt:
     name: git-lfs
     state: latest
